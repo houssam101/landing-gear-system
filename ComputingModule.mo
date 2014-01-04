@@ -211,6 +211,17 @@ model ComputingModule "Computing Module."
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={40,-170})));
+
+equation
+  gears_locked_down = true;
+  gears_maneuvering = true;
+  anomaly = false;
+  general_EV = false;
+  close_EV = true;
+  open_EV = false;
+  retract_EV = false;
+  extend_EV= false;
+
   annotation (Icon(coordinateSystem(extent={{-160,-160},{160,160}}), graphics={
           Rectangle(
           extent={{-160,160},{160,-160}},
@@ -225,15 +236,4 @@ model ComputingModule "Computing Module."
           textStyle={TextStyle.Bold},
           textString="Computing Module")}), Diagram(coordinateSystem(extent={{
             -160,-160},{160,160}})));
-
-equation
-  gears_locked_down = true;
-  gears_maneuvering = true;
-  anomaly = false;
-  general_EV = false;
-  close_EV = true;
-  open_EV = false;
-  retract_EV = false;
-  extend_EV= false;
-
 end ComputingModule;

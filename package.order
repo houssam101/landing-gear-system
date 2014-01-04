@@ -3,3 +3,7 @@ DigitalArchitecture
 TriplicatedDigitalInput
 DigitalOutput
 LandingGearSystemTest
+LandingGearSystem
+AnalogicalSwitch
+TriplicatedDigitalOutput
+DigitalInput
