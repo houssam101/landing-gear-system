@@ -1,9 +1,11 @@
-ComputingModule
-DigitalArchitecture
+LandingGearSystemTest
+TriplicatedDigitalOutput
 TriplicatedDigitalInput
 DigitalOutput
-LandingGearSystemTest
+DigitalInput
+ComputingModule
+DigitalArchitecture
 LandingGearSystem
 AnalogicalSwitch
-TriplicatedDigitalOutput
-DigitalInput
+Voter
+
