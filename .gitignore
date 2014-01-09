@@ -1,4 +1,5 @@
 *.mof
+*.mat
 dsfinal.txt
 dsin.txt
 dslog.txt

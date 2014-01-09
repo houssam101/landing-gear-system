@@ -23,14 +23,12 @@ model AnalogicalSwitch
   Integer timer(start=0);
 
   Voter voter annotation (Placement(transformation(extent={{-10,66},{10,86}})));
-  Modelica.StateGraph.InitialStepWithSignal
-                                  Open
+  Modelica.StateGraph.InitialStep Open
     annotation (Placement(transformation(extent={{-10,16},{10,36}})));
   Modelica.StateGraph.Transition transition(condition=voter.voter_output <>
         previous(voter.voter_output), waitTime=0.8)
     annotation (Placement(transformation(extent={{20,16},{40,36}})));
-  Modelica.StateGraph.StepWithSignal
-                           Intermediate1
+  Modelica.StateGraph.Step Intermediate1
     annotation (Placement(transformation(extent={{62,-10},{82,10}})));
   Modelica.StateGraph.Alternative alternative
     annotation (Placement(transformation(extent={{-52,-52},{52,52}})));
@@ -40,15 +38,14 @@ model AnalogicalSwitch
     annotation (Placement(transformation(extent={{-40,16},{-20,36}})));
   Modelica.StateGraph.Transition transition2
     annotation (Placement(transformation(extent={{-10,-36},{10,-16}})));
-  Modelica.StateGraph.StepWithSignal Closed annotation (Placement(
+  Modelica.StateGraph.Step           Closed annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
         origin={30,-70})));
   Modelica.StateGraph.Transition transition3
     annotation (Placement(transformation(extent={{70,-80},{50,-60}})));
-  Modelica.StateGraph.StepWithSignal
-                           Intermediate2
+  Modelica.StateGraph.Step Intermediate2
     annotation (Placement(transformation(extent={{-20,-80},{-40,-60}})));
   Modelica.StateGraph.Transition transition4
     annotation (Placement(transformation(extent={{10,-80},{-10,-60}})));

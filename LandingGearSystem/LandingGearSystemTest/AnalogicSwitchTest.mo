@@ -8,25 +8,26 @@ model AnalogicSwitchTest
 equation
   when Clock(0.4) then
 
-    timer_val2 = previous(timer_val2) + 1;
     timer_val3 = previous(timer_val3) + 1;
 
     switch.switch_input = not previous(switch.switch_input);
 
     switch.handle.val1 = not previous(switch.handle.val1);
 
-    if timer_val2 == 1 then
-
+    if previous(timer_val2) == 1 then
       timer_val2 = 0;
       switch.handle.val2 = not previous(switch.handle.val2);
-
+    else
+      timer_val2 = previous(timer_val2) + 1;
+      switch.handle.val2 = previous(switch.handle.val2);
     end if;
 
-    if timer_val3 == 3 then
-
+    if previous(timer_val3) == 3 then
       timer_val3 = 0;
       switch.handle.val3 = not previous(switch.handle.val3);
-
+    else
+      timer_val3 = previous(timer_val3) + 1;
+      switch.handle.val3 = previous(switch.handle.val3);
     end if;
 
   end when;

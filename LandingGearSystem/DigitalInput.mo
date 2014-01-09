@@ -1,6 +1,6 @@
 within LandingGearSystem;
 connector DigitalInput =
-  output Boolean "true, if step is active"
+  input Boolean "true, if step is active"
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
           {100,100}}),   graphics={Polygon(
           points={{-60,80},{-60,-80},{80,0},{-60,80}},
