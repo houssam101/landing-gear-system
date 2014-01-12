@@ -25,5 +25,4 @@ equation
         Rectangle(extent={{-30,92},{30,-92}}, lineColor={0,0,255}),
         Rectangle(extent={{-28,14},{28,4}}, lineColor={0,0,255}),
         Rectangle(extent={{-4,14},{4,106}}, lineColor={0,0,255})}));
-
 end HydraulicRam;

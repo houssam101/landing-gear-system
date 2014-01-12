@@ -8,9 +8,7 @@ model AnalogicSwitchTest
 equation
   when Clock(0.4) then
 
-    timer_val3 = previous(timer_val3) + 1;
-
-    switch.switch_input = not previous(switch.switch_input);
+    switch.switch_input.val = not previous(switch.switch_input.val);
 
     switch.handle.val1 = not previous(switch.handle.val1);
 

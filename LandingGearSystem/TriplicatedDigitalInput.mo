@@ -1,9 +1,9 @@
 within LandingGearSystem;
 connector TriplicatedDigitalInput "Triplicated Digital Input."
 
-  input Boolean val1 "true, if activated." annotation (HideResult=true);
-  input Boolean val2 "true, if activated." annotation (HideResult=true);
-  input Boolean val3 "true, if activated." annotation (HideResult=true);
+  input Boolean val1(start=false) "true, if activated." annotation (HideResult=true);
+  input Boolean val2(start=false) "true, if activated." annotation (HideResult=true);
+  input Boolean val3(start=false) "true, if activated." annotation (HideResult=true);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}),       graphics={Polygon(

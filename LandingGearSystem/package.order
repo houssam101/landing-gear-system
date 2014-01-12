@@ -11,3 +11,6 @@ Voter
 HydraulicModule
 HydraulicRam
 MecanicModule
+StateMachine
+AnalogicalSwitch2
+State
