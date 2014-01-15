@@ -4,8 +4,14 @@ model HydraulicRam
   parameter Modelica.SIunits.Area A;
   parameter Modelica.SIunits.Length L;
 
-  Modelica.Fluid.Interfaces.FluidPort H1 annotation (Placement(transformation(extent={{80,80},{100,100}})));
-  Modelica.Fluid.Interfaces.FluidPort H2 annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
+  Modelica.Fluid.Interfaces.FluidPort_a
+                                      H1(redeclare package Medium =
+        Modelica.Media.Water.ConstantPropertyLiquidWater)
+                                         annotation (Placement(transformation(extent={{80,80},{100,100}})));
+  Modelica.Fluid.Interfaces.FluidPort_b
+                                      H2(redeclare package Medium =
+        Modelica.Media.Water.ConstantPropertyLiquidWater)
+                                         annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
   Modelica.Mechanics.Translational.Interfaces.Support M1 annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Modelica.Mechanics.Translational.Interfaces.Support M2 annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
 

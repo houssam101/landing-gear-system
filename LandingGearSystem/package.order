@@ -1,16 +1,4 @@
 LandingGearSystemTest
-TriplicatedDigitalOutput
-TriplicatedDigitalInput
-DigitalOutput
-DigitalInput
-ComputingModule
-DigitalArchitecture
-LandingGearSystem
-AnalogicalSwitch
-Voter
 HydraulicModule
 HydraulicRam
 MecanicModule
-StateMachine
-AnalogicalSwitch2
-State

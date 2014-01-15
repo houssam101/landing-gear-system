@@ -1,7 +1,7 @@
 within LandingGearSystem.LandingGearSystemTest;
 model AnalogicSwitchTest
 
-  AnalogicalSwitch switch annotation (Placement(transformation(extent={{-20,-20},{20,20}})));
+  AnalogicalSwitch2 switch annotation (Placement(transformation(extent={{-20,-20},{20,20}})));
   Integer timer_val2(start=0);
   Integer timer_val3(start=0);
 
