@@ -70,12 +70,6 @@ parameter Real P_coeff(start=100);
         origin={-10,10})));
   Modelica.Blocks.Math.Feedback feedback
     annotation (Placement(transformation(extent={{70,-58},{90,-38}})));
-  Modelica.Blocks.Continuous.Integrator integrator(k=-P_coeff)
-                                                             annotation (
-      Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={110,30})));
   Modelica.Mechanics.MultiBody.Parts.PointMass pointMass(m=10) annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -85,7 +79,7 @@ parameter Real P_coeff(start=100);
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
-        origin={50,30})));
+        origin={70,40})));
   Modelica.Mechanics.MultiBody.Parts.BodyCylinder segmentAB5(
     innerDiameter=0,
     diameter=0.1,
@@ -94,6 +88,11 @@ parameter Real P_coeff(start=100);
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-170,-110})));
+  Modelica.Blocks.Continuous.Integrator limIntegrator(k=-P_coeff) annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={130,40})));
 equation
   connect(revoluteA1.frame_b, segmentAB1.frame_a)
                                                 annotation (Line(
@@ -149,16 +148,8 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
 
-  connect(feedback.y, integrator.u) annotation (Line(
-      points={{89,-48},{128,-48},{128,30},{122,30}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(integrator.y, position.s_ref) annotation (Line(
-      points={{99,30},{62,30}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(position.flange, relPositionSensor.flange_b) annotation (Line(
-      points={{40,30},{16,30},{16,-10},{-10,-10},{-10,-5.55112e-16}},
+      points={{60,40},{16,40},{16,-10},{-10,-10},{-10,-5.55112e-16}},
       color={0,127,0},
       smooth=Smooth.None));
   connect(pointMass.frame_a, segmentAB5.frame_b) annotation (Line(
@@ -175,6 +166,14 @@ equation
       points={{-130,-70},{-170,-70},{-170,-100}},
       color={95,95,95},
       thickness=0.5,
+      smooth=Smooth.None));
+  connect(feedback.y, limIntegrator.u) annotation (Line(
+      points={{89,-48},{160,-48},{160,40},{142,40}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(position.s_ref, limIntegrator.y) annotation (Line(
+      points={{82,40},{119,40}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -180},{200,200}}),      graphics), Icon(coordinateSystem(extent={{
