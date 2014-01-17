@@ -59,27 +59,16 @@ parameter Real P_coeff(start=100);
         rotation=0,
         origin={-120,-70})));
 
-  Modelica.Blocks.Interfaces.RealInput u annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=180,
-        origin={220,10})));
   Modelica.Mechanics.Translational.Sensors.RelPositionSensor relPositionSensor
     annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={-10,10})));
-  Modelica.Blocks.Math.Feedback feedback
-    annotation (Placement(transformation(extent={{70,-58},{90,-38}})));
   Modelica.Mechanics.MultiBody.Parts.PointMass pointMass(m=10) annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-170,-150})));
-  Modelica.Mechanics.Translational.Sources.Position position annotation (
-      Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={70,40})));
   Modelica.Mechanics.MultiBody.Parts.BodyCylinder segmentAB5(
     innerDiameter=0,
     diameter=0.1,
@@ -88,11 +77,15 @@ parameter Real P_coeff(start=100);
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-170,-110})));
-  Modelica.Blocks.Continuous.Integrator limIntegrator(k=-P_coeff) annotation (
+  Modelica.Blocks.Interfaces.RealOutput y annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={0,210})));
+  Modelica.Mechanics.Translational.Interfaces.Flange_b flange_b annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
-        origin={130,40})));
+        origin={0,-190})));
 equation
   connect(revoluteA1.frame_b, segmentAB1.frame_a)
                                                 annotation (Line(
@@ -139,19 +132,7 @@ equation
       points={{-64,2},{-50,2},{-50,-10},{-10,-10},{-10,0}},
       color={0,127,0},
       smooth=Smooth.None));
-  connect(relPositionSensor.s_rel, feedback.u1) annotation (Line(
-      points={{1,10},{34,10},{34,-48},{72,-48}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(u, feedback.u2) annotation (Line(
-      points={{220,10},{170,10},{170,-70},{80,-70},{80,-56}},
-      color={0,0,127},
-      smooth=Smooth.None));
 
-  connect(position.flange, relPositionSensor.flange_b) annotation (Line(
-      points={{60,40},{16,40},{16,-10},{-10,-10},{-10,-5.55112e-16}},
-      color={0,127,0},
-      smooth=Smooth.None));
   connect(pointMass.frame_a, segmentAB5.frame_b) annotation (Line(
       points={{-170,-150},{-170,-120}},
       color={95,95,95},
@@ -167,12 +148,13 @@ equation
       color={95,95,95},
       thickness=0.5,
       smooth=Smooth.None));
-  connect(feedback.y, limIntegrator.u) annotation (Line(
-      points={{89,-48},{160,-48},{160,40},{142,40}},
-      color={0,0,127},
+  connect(flange_b, relPositionSensor.flange_b) annotation (Line(
+      points={{4.44089e-16,-190},{4.44089e-16,-10},{-10,-10},{-10,-4.44089e-16}},
+
+      color={0,127,0},
       smooth=Smooth.None));
-  connect(position.s_ref, limIntegrator.y) annotation (Line(
-      points={{82,40},{119,40}},
+  connect(relPositionSensor.s_rel, y) annotation (Line(
+      points={{1,10},{30,10},{30,90},{4.44089e-16,90},{4.44089e-16,210}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,

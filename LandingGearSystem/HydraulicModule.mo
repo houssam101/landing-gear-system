@@ -1,5 +1,6 @@
-within LandingGearSystem.LandingGearSystemTest;
-model RamTest
+within LandingGearSystem;
+model HydraulicModule
+
   Modelica.Fluid.Machines.SweptVolume sweptVolume(
     redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
 
@@ -8,7 +9,7 @@ model RamTest
         Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.1)},
     clearance=0.001,
     pistonCrossArea=0.005)
-    annotation (Placement(transformation(extent={{76,-38},{96,-18}})));
+    annotation (Placement(transformation(extent={{60,-40},{80,-20}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   Modelica.Fluid.Sources.FixedBoundary source(
@@ -18,8 +19,9 @@ model RamTest
     use_T=true,
     T=Modelica.SIunits.Conversions.from_degC(20),
     p=system.p_ambient)
-    annotation (Placement(transformation(extent={{-100,-100},{-80,-80}},
-          rotation=0)));
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+          rotation=90,
+        origin={-90,-90})));
   Modelica.Fluid.Pipes.StaticPipe pipe(
     redeclare package Medium =
         Modelica.Media.Water.ConstantPropertyLiquidWater,
@@ -28,7 +30,7 @@ model RamTest
     height_ab=50,
     diameter=0.3)
     annotation (Placement(transformation(
-        origin={-30,-71},
+        origin={-70,-11},
         extent={{-9,-10},{11,10}},
         rotation=90)));
   Modelica.Fluid.Machines.PrescribedPump
@@ -46,8 +48,8 @@ model RamTest
     nParallel=1,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
-    annotation (Placement(transformation(extent={{-68,-100},{-48,-80}},rotation=
-           0)));
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},   rotation=90,
+        origin={-70,-50})));
   Modelica.Fluid.Vessels.OpenTank reservoir(
     massDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     redeclare package Medium =
@@ -61,15 +63,16 @@ model RamTest
     portsData={Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.3),
         Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.3),
         Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.1)})
-    annotation (Placement(transformation(extent={{-20,-36},{0,-16}},
-                                                                   rotation=0)));
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+                                                                   rotation=270,
+        origin={-30,10})));
   Modelica.Blocks.Sources.Constant RelativePressureSetPoint(k=2e4)
-    annotation (Placement(transformation(extent={{-100,40},{-80,60}}, rotation=
-            0)));
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},  rotation=180,
+        origin={-50,90})));
   Modelica.Blocks.Logical.OnOffController controller(bandwidth=4000,
       pre_y_start=false)
-                        annotation (Placement(transformation(extent={{-40,40},{
-            -20,60}}, rotation=0)));
+                        annotation (Placement(transformation(extent={{-80,40},{
+            -60,60}}, rotation=0)));
   Modelica.Blocks.Logical.TriggeredTrapezoid PumpRPMGenerator(
     rising=3,
     falling=3,
@@ -80,8 +83,8 @@ model RamTest
                                                         redeclare package
       Medium =
         Modelica.Media.Water.ConstantPropertyLiquidWater)
-    annotation (Placement(transformation(extent={{10,10},{-10,-10}}, rotation=180,
-        origin={20,-28})));
+    annotation (Placement(transformation(extent={{-10,10},{10,-10}}, rotation=180,
+        origin={10,10})));
   Modelica.Blocks.Continuous.FirstOrder PT1(
     T=2,
     initType=Modelica.Blocks.Types.Init.InitialState,
@@ -95,24 +98,22 @@ model RamTest
     opening_min=0,
     dp_nominal=100000)
     annotation (Placement(transformation(extent={{38,-44},{58,-64}})));
-  Modelica.Blocks.Sources.BooleanPulse booleanPulse(width=50, period=6)
-    annotation (Placement(transformation(extent={{0,-80},{20,-60}})));
   Modelica.Blocks.MathBoolean.Not nor1
-    annotation (Placement(transformation(extent={{34,-80},{42,-72}})));
+    annotation (Placement(transformation(extent={{-14,-76},{-6,-68}})));
   Modelica.Fluid.Valves.ValveDiscrete valveDiscrete2(
     redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
 
     opening_min=0,
     m_flow_nominal=50,
     dp_nominal=200000)
-    annotation (Placement(transformation(extent={{100,-58},{120,-78}})));
+    annotation (Placement(transformation(extent={{80,-42},{100,-62}})));
   Modelica.Mechanics.Translational.Components.Spring spring(
     s_rel0=0.25,
     s_rel(start=0.268, fixed=true),
     c=500) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={86,14})));
+        origin={90,10})));
   Modelica.Fluid.Vessels.OpenTank tank(
     level_start=0,
     nPorts=1,
@@ -122,72 +123,88 @@ model RamTest
 
     portsData={Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.1),
         Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.1)})
-    annotation (Placement(transformation(extent={{180,-24},{202,-2}})));
-  Modelica.Mechanics.Translational.Components.Fixed fixed
-    annotation (Placement(transformation(extent={{108,50},{128,70}})));
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={90,-90})));
+  Modelica.Mechanics.Translational.Components.Fixed fixed annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={90,90})));
+  Modelica.Mechanics.Translational.Interfaces.Flange_a flange_a
+    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Interfaces.BooleanInput u
+    annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
 equation
-  connect(source.ports[1],pumps. port_a) annotation (Line(points={{-80,-90},{
-          -80,-90},{-68,-90}},               color={0,127,255}));
-  connect(RelativePressureSetPoint.y,controller. reference)
-                                                    annotation (Line(points={{-79,50},
-          {-60,50},{-60,56},{-42,56}},         color={0,0,127}));
+  connect(source.ports[1],pumps. port_a) annotation (Line(points={{-90,-80},{
+          -90,-74},{-90,-60},{-70,-60}},     color={0,127,255}));
   connect(controller.y,PumpRPMGenerator. u)
-    annotation (Line(points={{-19,50},{-2,50}}, color={255,0,255}));
+    annotation (Line(points={{-59,50},{-59,50},{-2,50}},
+                                                color={255,0,255}));
   connect(PumpRPMGenerator.y,PT1. u)
     annotation (Line(points={{21,50},{38,50}}, color={0,0,127}));
-  connect(PT1.y,pumps. N_in) annotation (Line(points={{61,50},{74,50},{74,10},{
-          -58,10},{-58,-80}},          color={0,0,127}));
-  connect(pipe.port_a,pumps. port_b)         annotation (Line(points={{-30,-80},
-          {-30,-90},{-48,-90}},                color={0,127,255}));
+  connect(PT1.y,pumps. N_in) annotation (Line(points={{61,50},{70,50},{70,28},{
+          -90,28},{-90,-50},{-80,-50},{-80,-50}},
+                                       color={0,0,127}));
+  connect(pipe.port_a,pumps. port_b)         annotation (Line(points={{-70,-20},
+          {-70,-40}},                          color={0,127,255}));
   connect(reservoirPressure.p, controller.u) annotation (Line(
-      points={{31,-28},{42,-28},{42,2},{-50,2},{-50,44},{-42,44}},
+      points={{-1,10},{-10,10},{-10,32},{-90,32},{-90,44},{-82,44}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(valveDiscrete.port_b, sweptVolume.ports[1]) annotation (Line(
-      points={{58,-54},{84,-54},{84,-38}},
+      points={{58,-54},{68,-54},{68,-40}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(booleanPulse.y, valveDiscrete.open) annotation (Line(
-      points={{21,-70},{36,-70},{36,-62},{48,-62}},
-      color={255,0,255},
-      smooth=Smooth.None));
   connect(nor1.u, valveDiscrete.open) annotation (Line(
-      points={{32.4,-76},{30,-76},{30,-70},{36,-70},{36,-62},{48,-62}},
+      points={{-15.6,-72},{-30,-72},{-30,-70},{-30,-70},{-30,-62},{48,-62}},
       color={255,0,255},
       smooth=Smooth.None));
   connect(pipe.port_b, reservoir.ports[1]) annotation (Line(
-      points={{-30,-60},{-30,-46},{-12.6667,-46},{-12.6667,-36}},
+      points={{-70,4.44089e-16},{-70,8},{-40,8},{-40,12.6667}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(reservoirPressure.port, reservoir.ports[2]) annotation (Line(
-      points={{20,-38},{20,-42},{-10,-42},{-10,-36}},
+      points={{10,-4.44089e-16},{10,-10},{-40,-10},{-40,10}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(valveDiscrete.port_a, reservoir.ports[3]) annotation (Line(
-      points={{38,-54},{-7.33333,-54},{-7.33333,-36}},
+      points={{38,-54},{-40,-54},{-40,7.33333}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(valveDiscrete2.port_a, sweptVolume.ports[2]) annotation (Line(
-      points={{100,-68},{96,-68},{96,-38},{88,-38}},
+      points={{80,-52},{72,-52},{72,-40},{72,-40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(spring.flange_b, sweptVolume.flange) annotation (Line(
-      points={{86,4},{86,-18}},
+      points={{90,1.33227e-15},{90,-20},{70,-20}},
       color={0,127,0},
       smooth=Smooth.None));
   connect(valveDiscrete2.port_b, tank.ports[1]) annotation (Line(
-      points={{120,-68},{150,-68},{150,-66},{178,-66},{178,-30},{191,-30},{191,
-          -24}},
+      points={{100,-52},{110,-52},{110,-80},{90,-80}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(fixed.flange, spring.flange_a) annotation (Line(
-      points={{118,60},{102,60},{102,24},{86,24}},
+      points={{90,90},{90,20}},
       color={0,127,0},
       smooth=Smooth.None));
   connect(nor1.y, valveDiscrete2.open) annotation (Line(
-      points={{42.8,-76},{110,-76}},
+      points={{-5.2,-72},{90,-72},{90,-72},{90,-72},{90,-60},{90,-60}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(RelativePressureSetPoint.y, controller.reference) annotation (Line(
+      points={{-61,90},{-70,90},{-70,70},{-90,70},{-90,56},{-82,56}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(spring.flange_b, flange_a) annotation (Line(
+      points={{90,0},{110,0}},
+      color={0,127,0},
+      smooth=Smooth.None));
+  connect(u, valveDiscrete.open) annotation (Line(
+      points={{-120,0},{-96,0},{-96,-72},{-30,-72},{-30,-62},{48,-62}},
       color={255,0,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
-end RamTest;
+end HydraulicModule;
