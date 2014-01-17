@@ -34,20 +34,19 @@ parameter Real P_coeff(start=100);
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-70,90})));
-  Modelica.Mechanics.MultiBody.Parts.BodyCylinder segmentAB3(diameter=0.1, r={0,
-        0,-0.5})
+  Modelica.Mechanics.MultiBody.Parts.BodyCylinder segmentAB3(diameter=0.1, r={0,0,-0.375})
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-70,50})));
   Modelica.Mechanics.MultiBody.Joints.Prismatic prismatic1(n={0,0,-1},
-      useAxisFlange=true)                                  annotation (
+      useAxisFlange=true,
+    s(start=0.25))                                         annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-70,10})));
-  Modelica.Mechanics.MultiBody.Parts.BodyCylinder segmentAB4(diameter=0.1, r={0,
-        0,-0.5})
+  Modelica.Mechanics.MultiBody.Parts.BodyCylinder segmentAB4(diameter=0.1, r={0,0,-0.375})
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
@@ -81,7 +80,7 @@ parameter Real P_coeff(start=100);
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={0,210})));
-  Modelica.Mechanics.Translational.Interfaces.Flange_b flange_b annotation (
+  Modelica.Mechanics.Translational.Interfaces.Flange_a flange_b annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
@@ -128,10 +127,6 @@ equation
       points={{-64,14},{-50,14},{-50,30},{-10,30},{-10,20}},
       color={0,127,0},
       smooth=Smooth.None));
-  connect(prismatic1.axis, relPositionSensor.flange_b) annotation (Line(
-      points={{-64,2},{-50,2},{-50,-10},{-10,-10},{-10,0}},
-      color={0,127,0},
-      smooth=Smooth.None));
 
   connect(pointMass.frame_a, segmentAB5.frame_b) annotation (Line(
       points={{-170,-150},{-170,-120}},
@@ -148,14 +143,18 @@ equation
       color={95,95,95},
       thickness=0.5,
       smooth=Smooth.None));
-  connect(flange_b, relPositionSensor.flange_b) annotation (Line(
-      points={{4.44089e-16,-190},{4.44089e-16,-10},{-10,-10},{-10,-4.44089e-16}},
-
-      color={0,127,0},
-      smooth=Smooth.None));
   connect(relPositionSensor.s_rel, y) annotation (Line(
       points={{1,10},{30,10},{30,90},{4.44089e-16,90},{4.44089e-16,210}},
       color={0,0,127},
+      smooth=Smooth.None));
+  connect(prismatic1.axis, flange_b) annotation (Line(
+      points={{-64,2},{-40,2},{-40,-20},{4.44089e-16,-20},{4.44089e-16,-190}},
+      color={0,127,0},
+      smooth=Smooth.None));
+  connect(relPositionSensor.flange_b, flange_b) annotation (Line(
+      points={{-10,-4.44089e-16},{-10,-20},{0,-20},{0,-190},{4.44089e-16,-190}},
+
+      color={0,127,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -180},{200,200}}),      graphics), Icon(coordinateSystem(extent={{

@@ -8,7 +8,7 @@ model HydraulicModule
     portsData={Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.1),
         Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.1)},
     clearance=0.001,
-    pistonCrossArea=0.005)
+    pistonCrossArea=0.1)
     annotation (Placement(transformation(extent={{60,-40},{80,-20}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
@@ -20,7 +20,7 @@ model HydraulicModule
     T=Modelica.SIunits.Conversions.from_degC(20),
     p=system.p_ambient)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
-          rotation=90,
+          rotation=0,
         origin={-90,-90})));
   Modelica.Fluid.Pipes.StaticPipe pipe(
     redeclare package Medium =
@@ -45,9 +45,9 @@ model HydraulicModule
     V=50/1000,
     T_start=Modelica.SIunits.Conversions.from_degC(20),
     use_N_in=true,
-    nParallel=1,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
-    massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
+    massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
+    nParallel=5)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},   rotation=90,
         origin={-70,-50})));
   Modelica.Fluid.Vessels.OpenTank reservoir(
@@ -57,20 +57,20 @@ model HydraulicModule
     T_start=Modelica.SIunits.Conversions.from_degC(20),
     use_portsData=true,
     crossArea=50,
-    level_start=2.2,
     height=3,
     nPorts=3,
     portsData={Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.3),
         Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.3),
-        Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.1)})
+        Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.1)},
+    level_start=3)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
                                                                    rotation=270,
         origin={-30,10})));
-  Modelica.Blocks.Sources.Constant RelativePressureSetPoint(k=2e4)
+  Modelica.Blocks.Sources.Constant RelativePressureSetPoint(k=10e5)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},  rotation=180,
         origin={-50,90})));
-  Modelica.Blocks.Logical.OnOffController controller(bandwidth=4000,
-      pre_y_start=false)
+  Modelica.Blocks.Logical.OnOffController controller(
+      pre_y_start=false, bandwidth=1)
                         annotation (Placement(transformation(extent={{-80,40},{
             -60,60}}, rotation=0)));
   Modelica.Blocks.Logical.TriggeredTrapezoid PumpRPMGenerator(
@@ -108,25 +108,12 @@ model HydraulicModule
     dp_nominal=200000)
     annotation (Placement(transformation(extent={{80,-42},{100,-62}})));
   Modelica.Mechanics.Translational.Components.Spring spring(
-    s_rel0=0.25,
-    s_rel(start=0.268, fixed=true),
-    c=500) annotation (Placement(transformation(
+    s_rel(start=0.268),
+    c=50000,
+    s_rel0=0.25) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={90,10})));
-  Modelica.Fluid.Vessels.OpenTank tank(
-    level_start=0,
-    nPorts=1,
-    height=10,
-    crossArea=1,
-    redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
-
-    portsData={Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.1),
-        Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.1)})
-    annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={90,-90})));
   Modelica.Mechanics.Translational.Components.Fixed fixed annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
@@ -137,16 +124,15 @@ model HydraulicModule
   Modelica.Blocks.Interfaces.BooleanInput u
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
 equation
-  connect(source.ports[1],pumps. port_a) annotation (Line(points={{-90,-80},{
-          -90,-74},{-90,-60},{-70,-60}},     color={0,127,255}));
+  connect(source.ports[1],pumps. port_a) annotation (Line(points={{-80,-90},{
+          -80,-74},{-80,-60},{-70,-60}},     color={0,127,255}));
   connect(controller.y,PumpRPMGenerator. u)
     annotation (Line(points={{-59,50},{-59,50},{-2,50}},
                                                 color={255,0,255}));
   connect(PumpRPMGenerator.y,PT1. u)
     annotation (Line(points={{21,50},{38,50}}, color={0,0,127}));
   connect(PT1.y,pumps. N_in) annotation (Line(points={{61,50},{70,50},{70,28},{
-          -90,28},{-90,-50},{-80,-50},{-80,-50}},
-                                       color={0,0,127}));
+          -90,28},{-90,-50},{-80,-50}},color={0,0,127}));
   connect(pipe.port_a,pumps. port_b)         annotation (Line(points={{-70,-20},
           {-70,-40}},                          color={0,127,255}));
   connect(reservoirPressure.p, controller.u) annotation (Line(
@@ -174,16 +160,12 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(valveDiscrete2.port_a, sweptVolume.ports[2]) annotation (Line(
-      points={{80,-52},{72,-52},{72,-40},{72,-40}},
+      points={{80,-52},{72,-52},{72,-40}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(spring.flange_b, sweptVolume.flange) annotation (Line(
       points={{90,1.33227e-15},{90,-20},{70,-20}},
       color={0,127,0},
-      smooth=Smooth.None));
-  connect(valveDiscrete2.port_b, tank.ports[1]) annotation (Line(
-      points={{100,-52},{110,-52},{110,-80},{90,-80}},
-      color={0,127,255},
       smooth=Smooth.None));
   connect(fixed.flange, spring.flange_a) annotation (Line(
       points={{90,90},{90,20}},
@@ -204,6 +186,10 @@ equation
   connect(u, valveDiscrete.open) annotation (Line(
       points={{-120,0},{-96,0},{-96,-72},{-30,-72},{-30,-62},{48,-62}},
       color={255,0,255},
+      smooth=Smooth.None));
+  connect(valveDiscrete2.port_b, pumps.port_a) annotation (Line(
+      points={{100,-52},{110,-52},{110,-90},{-80,-90},{-80,-60},{-70,-60}},
+      color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));
