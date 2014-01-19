@@ -153,9 +153,9 @@ equation
       smooth=Smooth.None));
   connect(relPositionSensor.flange_b, flange_b) annotation (Line(
       points={{-10,-4.44089e-16},{-10,-20},{0,-20},{0,-190},{4.44089e-16,-190}},
-
       color={0,127,0},
       smooth=Smooth.None));
+
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -180},{200,200}}),      graphics), Icon(coordinateSystem(extent={{
             -200,-180},{200,200}})));
