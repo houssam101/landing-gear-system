@@ -5,7 +5,7 @@ model LandingGearSystemTest
   Modelica.Blocks.Sources.BooleanPulse booleanPulse(
     width=50,
     startTime=0,
-    period=10)
+    period=20)
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
 equation
   connect(landingGearSystem.u, booleanPulse.y) annotation (Line(

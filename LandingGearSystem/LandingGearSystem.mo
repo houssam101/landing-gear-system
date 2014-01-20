@@ -18,7 +18,7 @@ model LandingGearSystem
     annotation (Placement(transformation(extent={{30,-22},{50,-2}})));
   Modelica.Blocks.Math.Add add(k1=1, k2=-1)
     annotation (Placement(transformation(extent={{-42,-72},{-22,-52}})));
-  DriverModule driverModule(startL=0.25, gain=1000)
+  DriverModule driverModule(startL=0.25, gain=300)
     annotation (Placement(transformation(extent={{50,-72},{70,-52}})));
 equation
   connect(u, switch1.u2) annotation (Line(
