@@ -63,7 +63,7 @@ parameter Real P_coeff(start=100);
         extent={{-10,10},{10,-10}},
         rotation=270,
         origin={-10,10})));
-  Modelica.Mechanics.MultiBody.Parts.PointMass pointMass(m=10) annotation (
+  Modelica.Mechanics.MultiBody.Parts.PointMass pointMass(m=1)  annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,

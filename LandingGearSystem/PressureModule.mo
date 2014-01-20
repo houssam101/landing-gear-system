@@ -1,17 +1,18 @@
 within LandingGearSystem;
 model PressureModule
   Modelica.Fluid.Machines.SweptVolume sweptVolume(
-    pistonCrossArea=0.1,
     clearance=0.01,
     redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
     nPorts=3,
-    portsData={Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.01),
-        Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.01),
-        Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.01)})
+    pistonCrossArea=0.4,
+    portsData={Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.05),
+        Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.05),
+        Modelica.Fluid.Vessels.BaseClasses.VesselPortsData(diameter=0.05)},
+    V(start=1.5, fixed=true))
     annotation (Placement(transformation(extent={{10,-44},{30,-24}})));
 
   Modelica.Fluid.Sources.FixedBoundary source(
-    nPorts = 1,
+    nPorts=2,
     redeclare package Medium =
         Modelica.Media.Water.ConstantPropertyLiquidWater,
     use_T=true,
@@ -57,7 +58,7 @@ model PressureModule
   Modelica.Fluid.Sensors.Pressure pressure(redeclare package Medium =
         Modelica.Media.Water.ConstantPropertyLiquidWater)
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
-  Modelica.Mechanics.Translational.Components.Spring spring(c=10000, s_rel0=1)
+  Modelica.Mechanics.Translational.Components.Spring spring(         s_rel0=1, c=100000)
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
@@ -69,16 +70,16 @@ model PressureModule
         origin={20,20})));
   Modelica.Fluid.Valves.ValveDiscrete valveDiscrete(
     redeclare package Medium = Modelica.Media.Water.ConstantPropertyLiquidWater,
-    m_flow_nominal=10,
     allowFlowReversal=false,
-    dp_nominal=100000)
+    dp_nominal=100000,
+    m_flow_nominal=10)
     annotation (Placement(transformation(extent={{-18,-40},{2,-60}})));
 
   Modelica.Blocks.Sources.BooleanStep booleanStep(startTime=10)
     annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
   Modelica.Fluid.Sensors.Pressure pressure1(redeclare package Medium =
         Modelica.Media.Water.ConstantPropertyLiquidWater)
-    annotation (Placement(transformation(extent={{28,-48},{48,-28}})));
+    annotation (Placement(transformation(extent={{28,-50},{48,-30}})));
   Modelica.Blocks.Logical.LessThreshold lessThreshold(threshold=9e5)
     annotation (Placement(transformation(extent={{58,-50},{78,-30}})));
   Modelica.Blocks.Logical.And and1 annotation (Placement(transformation(
@@ -90,8 +91,11 @@ model PressureModule
     annotation (Placement(transformation(extent={{100,-40},{120,40}})));
   inner Modelica.Fluid.System system
     annotation (Placement(transformation(extent={{80,-100},{100,-80}})));
+  Modelica.Fluid.Interfaces.FluidPorts_a ports_a(redeclare package Medium =
+        Modelica.Media.Water.ConstantPropertyLiquidWater)
+    annotation (Placement(transformation(extent={{-120,-40},{-100,40}})));
 equation
-  connect(source.ports[1],pumps. port_a) annotation (Line(points={{-80,-50},{
+  connect(source.ports[1],pumps. port_a) annotation (Line(points={{-80,-48},{
           -74,-50},{-68,-50}},               color={0,127,255}));
   connect(RelativePressureSetPoint.y,controller. reference)
                                                     annotation (Line(points={{-79,90},
@@ -127,11 +131,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(pressure1.port, sweptVolume.ports[2]) annotation (Line(
-      points={{38,-48},{38,-56},{20,-56},{20,-44}},
+      points={{38,-50},{38,-56},{20,-56},{20,-44}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pressure1.p, lessThreshold.u) annotation (Line(
-      points={{49,-38},{52,-38},{52,-40},{56,-40}},
+      points={{49,-40},{56,-40}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(valveDiscrete.open, and1.y) annotation (Line(
@@ -148,6 +152,10 @@ equation
       smooth=Smooth.None));
   connect(sweptVolume.ports[3], ports_b) annotation (Line(
       points={{22.6667,-44},{22,-44},{22,-56},{96,-56},{96,0},{110,0}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(source.ports[2], ports_a) annotation (Line(
+      points={{-80,-52},{-80,0},{-110,0}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

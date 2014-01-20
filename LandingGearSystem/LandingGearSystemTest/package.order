@@ -2,3 +2,7 @@ MecanicModuleTest
 HydraulicModuleTest
 LandingGearSystemTest
 PressureModuleTest
+TranslationInverterTest
+BidirectionalRamTest
+DCMotorTest
+DriverModuleTest
